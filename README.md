@@ -2,7 +2,9 @@ Installation instructions:
  
 Step 1 
 
-Download and extract Snapping_v1.6.zip
+Download and extract 
+
+https://github.com/ADK-DAYZMOD-EPOCH/Build-Snapping---Extended/archive/master.zip
  
 Step 2. 
 

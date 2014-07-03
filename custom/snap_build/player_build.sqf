@@ -14,7 +14,7 @@ Reworked by: OtterNas3
 Last update 02/20/2014
 */
 
-private ["_location","_dir","_classname","_item","_hasrequireditem","_missing","_hastoolweapon","_cancel","_reason","_started","_finished","_animState","_isMedic","_dis","_sfx","_hasbuilditem","_tmpbuilt","_onLadder","_isWater","_require","_text","_offset","_IsNearPlot","_isOk","_location1","_location2","_counter","_limit","_proceed","_num_removed","_position","_object","_canBuildOnPlot","_friendlies","_nearestPole","_ownerID","_findNearestPoles","_findNearestPole","_distance","_classnametmp","_ghost","_isPole","_needText","_lockable","_zheightchanged","_rotate","_combination_1","_combination_2","_combination_3","_combination_4","_combination","_combination_1_Display","_combinationDisplay","_zheightdirection","_abort","_isNear","_need","_objHupDiff","_needNear","_vehicle","_inVehicle","_requireplot","_objHDiff","_isLandFireDZ","_isTankTrap"];
+private ["_location","_dir","_classname","_item","_hasrequireditem","_missing","_hastoolweapon","_cancel","_reason","_started","_finished","_animState","_isMedic","_dis","_sfx","_hasbuilditem","_tmpbuilt","_onLadder","_isWater","_require","_text","_offset","_IsNearPlot","_isOk","_location1","_location2","_counter","_limit","_proceed","_num_removed","_position","_object","_canBuildOnPlot","_friendlies","_nearestPole","_ownerID","_findNearestPoles","_findNearestPole","_distance","_classnametmp","_ghost","_isPole","_needText","_lockable","_zheightchanged","_rotate","_combination_1","_combination_2","_combination_3","_combination_4","_combination","_combination_1_Display","_combinationDisplay","_zheightdirection","_abort","_isNear","_need","_needNear","_vehicle","_inVehicle","_requireplot","_objHDiff","_isLandFireDZ","_isTankTrap"];
 
 if(DZE_ActionInProgress) exitWith { cutText [(localize "str_epoch_player_40") , "PLAIN DOWN"]; };
 DZE_ActionInProgress = true;
@@ -58,7 +58,6 @@ _item =	_this;
 
 // Need Near Requirements
 _abort = false;
-_distance = 3;
 _reason = "";
 
 _needNear = 	getArray (configFile >> "CfgMagazines" >> _item >> "ItemActions" >> "Build" >> "neednearby");
@@ -67,27 +66,29 @@ _needNear = 	getArray (configFile >> "CfgMagazines" >> _item >> "ItemActions" >>
 	switch(_x) do{
 		case "fire":
 		{
+			_distance = 3;
 			_isNear = {inflamed _x} count (getPosATL player nearObjects _distance);
-			if(_isNear == 0) then {  
+			if(_isNear == 0) then {
 				_abort = true;
 				_reason = "fire";
 			};
 		};
 		case "workshop":
 		{
+			_distance = 3;
 			_isNear = count (nearestObjects [player, ["Wooden_shed_DZ","WoodShack_DZ","WorkBench_DZ"], _distance]);
-			if(_isNear == 0) then {  
+			if(_isNear == 0) then {
 				_abort = true;
 				_reason = "workshop";
 			};
 		};
 		case "fueltank":
 		{
+			_distance = 30;
 			_isNear = count (nearestObjects [player, dayz_fuelsources, _distance]);
-			if(_isNear == 0) then {  
+			if(_isNear == 0) then {
 				_abort = true;
 				_reason = "fuel tank";
-				_distance = 30;
 			};
 		};
 	};
@@ -143,28 +144,28 @@ _findNearestPole = [];
 	if (alive _x) then {
 		_findNearestPole set [(count _findNearestPole),_x];
 	};
-} foreach _findNearestPoles;
+} count _findNearestPoles;
 
 _IsNearPlot = count (_findNearestPole);
 
-// If item is plot pole and another one exists within 45m
-if(_isPole and _IsNearPlot > 0) exitWith {  DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_44") , "PLAIN DOWN"]; };
+// If item is plot pole && another one exists within 45m
+if(_isPole && _IsNearPlot > 0) exitWith {  DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_44") , "PLAIN DOWN"]; };
 
 if(_IsNearPlot == 0) then {
 
 	// Allow building of plot
-	if(_requireplot == 0 or _isLandFireDZ) then {
+	if(_requireplot == 0 || _isLandFireDZ) then {
 		_canBuildOnPlot = true;
 	};
 
 } else {
-	// Since there are plots nearby we check for ownership and then for friend status
-	
-	// check nearby plots ownership and then for friend status
+	// Since there are plots nearby we check for ownership && then for friend status
+
+	// check nearby plots ownership && then for friend status
 	_nearestPole = _findNearestPole select 0;
 
-	// Find owner 
-	_ownerID = _nearestPole getVariable["CharacterID","0"];
+	// Find owner
+	_ownerID = _nearestPole getVariable ["CharacterID","0"];
 
 	// diag_log format["DEBUG BUILDING: %1 = %2", dayz_characterID, _ownerID];
 
@@ -172,7 +173,7 @@ if(_IsNearPlot == 0) then {
 	if(dayz_characterID == _ownerID) then {  //Keep ownership
 		// owner can build anything within his plot except other plots
 		if(!_isPole) then {
-			_canBuildOnPlot = true;		
+			_canBuildOnPlot = true;
 		};
 
 	} else {
@@ -194,8 +195,8 @@ _missing = "";
 _hasrequireditem = true;
 {
 	_hastoolweapon = _x in weapons player;
-	if(!_hastoolweapon) exitWith { _hasrequireditem = false; _missing = getText (configFile >> "cfgWeapons" >> _x >> "displayName"); }
-} forEach _require;
+	if(!_hastoolweapon) exitWith { _hasrequireditem = false; _missing = getText (configFile >> "cfgWeapons" >> _x >> "displayName"); };
+} count _require;
 
 _hasbuilditem = _this in magazines player;
 if (!_hasbuilditem) exitWith {DZE_ActionInProgress = false; cutText [format[(localize "str_player_31"),_text,"build"] , "PLAIN DOWN"]; };
@@ -333,22 +334,21 @@ if (_hasrequireditem) then {
 			[player,_dis,true,(getPosATL player)] spawn player_alertZombies;
 	
 			r_interrupt = false;
-			_animState = animationState player;
 			r_doLoop = true;
 			_started = false;
 			_finished = false;
-	
+
 			while {r_doLoop} do {
 				_animState = animationState player;
 				_isMedic = ["medic",_animState] call fnc_inString;
 				if (_isMedic) then {
 					_started = true;
 				};
-				if (_started and !_isMedic) then {
+				if (_started && !_isMedic) then {
 					r_doLoop = false;
 					_finished = true;
 				};
-				if (r_interrupt or (player getVariable["combattimeout", 0] >= time)) then {
+				if (r_interrupt || (player getVariable["combattimeout", 0] >= time)) then {
 					r_doLoop = false;
 				};
 				if (DZE_cancelBuilding) exitWith {
@@ -374,11 +374,11 @@ if (_hasrequireditem) then {
 				_isOk = false;
 				_proceed = true;
 			};
-	
+
 		};
 
 		if (_proceed) then {
-	
+
 			_num_removed = ([player,_item] call BIS_fnc_invRemove);
 			if(_num_removed == 1) then {
 
@@ -391,11 +391,11 @@ if (_hasrequireditem) then {
 				_object setVariable ["OEMPos",_location,true];
 
 				if(_lockable > 1) then {
-					
+
 					_combinationDisplay = "";
 
 					switch (_lockable) do {
-						
+
 						case 2: { // 2 lockbox
 							_combination_1 = (floor(random 3)) + 100; // 100=red,101=green,102=blue
 							_combination_2 = floor(random 10);
@@ -413,7 +413,7 @@ if (_hasrequireditem) then {
 							};
 							_combinationDisplay = format["%1%2%3",_combination_1_Display,_combination_2,_combination_3];
 						};
-						
+
 						case 3: { // 3 combolock
 							_combination_1 = floor(random 10);
 							_combination_2 = floor(random 10);
@@ -422,7 +422,7 @@ if (_hasrequireditem) then {
 							dayz_combination = _combination;
 							_combinationDisplay = _combination;
 						};
-						
+
 						case 4: { // 4 safe
 							_combination_1 = floor(random 10);
 							_combination_2 = floor(random 10);
@@ -441,7 +441,7 @@ if (_hasrequireditem) then {
 					publicVariableServer "PVDZE_obj_Publish";
 
 					cutText [format[(localize "str_epoch_player_140"),_combinationDisplay,_text], "PLAIN DOWN", 5];
-					
+
 
 				} else {
 					_object setVariable ["CharacterID",dayz_characterID,true];

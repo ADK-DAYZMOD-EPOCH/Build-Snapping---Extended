@@ -148,7 +148,7 @@ _findNearestPole = [];
 
 _IsNearPlot = count (_findNearestPole);
 
-// If item is plot pole && another one exists within 45m
+// If item is plot pole and another one exists within 45m
 if(_isPole && _IsNearPlot > 0) exitWith {  DZE_ActionInProgress = false; cutText [(localize "str_epoch_player_44") , "PLAIN DOWN"]; };
 
 if(_IsNearPlot == 0) then {
@@ -161,7 +161,7 @@ if(_IsNearPlot == 0) then {
 } else {
 	// Since there are plots nearby we check for ownership && then for friend status
 
-	// check nearby plots ownership && then for friend status
+	// check nearby plots ownership and then for friend status
 	_nearestPole = _findNearestPole select 0;
 
 	// Find owner

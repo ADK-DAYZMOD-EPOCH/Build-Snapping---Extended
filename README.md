@@ -28,12 +28,14 @@ It has to be the VERY LAST LINE of the File!
 
 	#include "custom\snap_build\points.hpp"
 	
-6. repbo MPMissions\YOURMISSIONNAME\ - upaload - reload - snap - smile!
+6. repbo MPMissions\YOURMISSIONNAME\
+
+ - upaload - reload - snap - smile!
  
  
-I hope i could clarify the !IMPORTANCE! that you copy the lines i mentioned to the VERY BOTTOM!
+I hope I could clarify the !IMPORTANCE! that you copy the lines I mentioned to the VERY BOTTOM!
 Else:
-No Snap - No Smile - unneded questions
+No Snap - No Smile - unneeded questions
  
  
  

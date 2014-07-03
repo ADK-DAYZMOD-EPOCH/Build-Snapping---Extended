@@ -21,7 +21,7 @@ so it will look like:
 	call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\compiles.sqf";
 	call compile preprocessFileLineNumbers "custom\snap_build\compiles.sqf";
 
-5.Open MPMissions\YOURMISSIONNAME\description.ext
+5. Open MPMissions\YOURMISSIONNAME\description.ext
 
 Add this line to the VERY BOTTOM of it! (Yeah this means AFTER the last closing bracket!)
 It has to be the VERY LAST LINE of the File!

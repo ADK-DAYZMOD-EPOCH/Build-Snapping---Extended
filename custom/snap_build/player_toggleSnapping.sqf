@@ -10,10 +10,10 @@ Last update 02/20/2014
 */
 
 if (SnappingEnabled) then {
-	SnappingEnabled = false;
-	SnappingAttachedToPlayer = false;
-	systemChat ("Snapping - DISABLED");
+    SnappingEnabled = false;
+    SnappingAttachedToPlayer = false;
+    systemChat ("Snapping - DISABLED");
 } else {
-	SnappingEnabled = true;
-	systemChat ("Snapping - ENABLED");
+    SnappingEnabled = true;
+    systemChat ("Snapping - ENABLED");
 };

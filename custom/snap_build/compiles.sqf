@@ -9,6 +9,6 @@ Reworked by: OtterNas3
 Last update 02/20/2014
 */
 
-player_build			= compile preprocessFileLineNumbers "custom\snap_build\player_build.sqf";
-player_buildControls	= compile preprocessFileLineNumbers "custom\snap_build\player_buildControls.sqf";
-snap_object				= compile preprocessFileLineNumbers "custom\snap_build\snap_object.sqf";
+player_build            = compile preprocessFileLineNumbers "custom\snap_build\player_build.sqf";
+player_buildControls    = compile preprocessFileLineNumbers "custom\snap_build\player_buildControls.sqf";
+snap_object             = compile preprocessFileLineNumbers "custom\snap_build\snap_object.sqf";
